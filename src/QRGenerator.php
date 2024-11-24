@@ -2,6 +2,8 @@
 
 namespace Teracksito\QrGenerator;
 
+use Teracksito\QrGenerator\Utils\Constants;
+
 use Exception;
 use GdImage;
 
@@ -36,17 +38,17 @@ class QRGenerator
         // $this->versions = $data;
 
         // QR Alignment patterns. Determines the position of the alignment patterns in function of the QR version
-        $json = file_get_contents(__DIR__ . '/data/alignment_locations.json');
+        $json = file_get_contents(Constants::PROJECT_ROOT . '/src/data/alignment_locations.json');
         $data = json_decode($json, true);
         $this->alignment_positions = $data;
 
         // QR Version information. Determines the version information bits in function of the QR version, for version 7 and above
-        $json = file_get_contents(__DIR__ . '/data/version_information.json');
+        $json = file_get_contents(Constants::PROJECT_ROOT . '/src/data/version_information.json');
         $data = json_decode($json, true);
         $this->version_information = $data;
 
         // QR Format information. Determines the format information bits in function of the error correction level and mask
-        $json = file_get_contents(__DIR__ . '/data/format_information.json');
+        $json = file_get_contents(Constants::PROJECT_ROOT . '/src/data/format_information.json');
         $data = json_decode($json, true);
         $this->format_information = $data;
 

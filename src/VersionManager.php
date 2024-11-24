@@ -2,6 +2,8 @@
 
 namespace Teracksito\QrGenerator;
 
+use Teracksito\QrGenerator\Utils\Constants;
+
 use Exception;
 
 class VersionManager
@@ -16,7 +18,7 @@ class VersionManager
    */
   public static function determineVersion($data, $ecc_level)
   {
-    self::$versions ??=  json_decode(file_get_contents(__DIR__ . '/data/qr_levels.json'), true);
+    self::$versions ??= json_decode(file_get_contents(Constants::PROJECT_ROOT . '/src/data/qr_levels.json'), true);
     $length = strlen($data) + 2;
     foreach (self::$versions as $version => $ecc_levels) {
       $schemas = $ecc_levels[$ecc_level];

@@ -1,4 +1,5 @@
 <?php
+
 namespace Teracksito\QrGenerator;
 
 use Exception;

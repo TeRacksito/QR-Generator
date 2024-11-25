@@ -28,6 +28,7 @@ class QRGenerator
     private $masks;
 
     public GdImage $image;
+    public array $masked_map;
 
 
     function __construct()
@@ -88,7 +89,6 @@ class QRGenerator
         // ###### DATA ENCODING ######
         //$this->version = $this->determineVersion($data);
         $this->version = VersionManager::determineVersion($data, $this->ecc_level);
-        echo "<h1>$this->version</h1>";
 
         $this->codewords = $this->normalizeCodewords($this->dataToCodewords($data, $this->version));
 
@@ -126,6 +126,7 @@ class QRGenerator
         $resized_image = $this->sharpResizeImage($image, $scale);
         // imagepng($resized_image, $filename); // for saving the image
         $this->image = $resized_image;
+        $this->masked_map = &$masked_map;
 
         return [
             'mask' => $mask,
@@ -571,8 +572,8 @@ class QRGenerator
 
                     $block = null;
                     for ($i = $block_index; $i < count($blocks); $i++) {
-                        $temp = $blocks[$i][$block_type][$block_row];
-                        if (isset($temp)) {
+                        $temp = $blocks[$i][$block_type][$block_row] ?? null;
+                        if ($temp !== null) {
                             $block = $temp;
                             $block_index = $i;
                             break;
@@ -588,7 +589,7 @@ class QRGenerator
                         $block = $blocks[$block_index][$block_type][$block_row];
                     }
 
-                    $shadow_map[$row][$col] = $block[$block_col];
+                    $shadow_map[$row][$col] = $block[$block_col] ?? null;
                     $block_col++;
 
                     if ($block_col >= 8) {
